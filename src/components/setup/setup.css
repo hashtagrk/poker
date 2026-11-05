@@ -1,0 +1,100 @@
+.setup {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(17rem, 2fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.setup__head {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: var(--space-2);
+}
+.setup__head h1 {
+  font-size: var(--text-2xl);
+}
+.roster {
+  padding: var(--space-5);
+  display: grid;
+  gap: var(--space-4);
+}
+.roster__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.roster__head h2 {
+  font-size: var(--text-xl);
+}
+.roster__add {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+}
+.roster__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.seat-row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr) 9rem auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  animation: rise-in var(--duration-normal) var(--ease-out-expo) both;
+}
+.seat-row__number {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--fg-faint);
+  text-align: center;
+}
+.seat-row__actions {
+  display: flex;
+  gap: var(--space-1);
+}
+.setup__side {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  position: sticky;
+  top: 5.5rem;
+}
+.setup__side h2 {
+  font-size: var(--text-lg);
+}
+.setup__summary {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: oklch(0% 0 0 / 0.2);
+  border: 1px solid var(--line);
+}
+.setup__summary strong {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 500;
+  color: var(--gold);
+}
+
+@media (max-width: 860px) {
+  .setup {
+    grid-template-columns: 1fr;
+  }
+  .setup__side {
+    position: static;
+  }
+}
+@media (max-width: 560px) {
+  .seat-row {
+    grid-template-columns: 1.4rem minmax(0, 1fr) auto;
+  }
+  .seat-row__buyin {
+    grid-column: 2 / -1;
+  }
+}

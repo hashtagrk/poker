@@ -1,0 +1,134 @@
+.shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--gutter);
+  background: color-mix(in oklch, var(--felt-950), transparent 25%);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--cream);
+  text-align: left;
+}
+.brand__mark {
+  width: 2.2rem;
+  height: 2.2rem;
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+.brand:hover .brand__mark {
+  transform: rotate(-16deg);
+}
+.brand__name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1;
+  font-variation-settings:
+    'SOFT' 60,
+    'WONK' 1;
+}
+.brand__sub {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  margin-top: 0.2rem;
+}
+.shell__context {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.shell__game {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+}
+.stepper__step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.stepper__step::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+.stepper__step--done {
+  color: var(--cream-2);
+}
+.stepper__step--current {
+  color: var(--gold);
+  font-weight: 700;
+}
+.stepper__step--current::before {
+  opacity: 1;
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--gold), transparent 75%);
+}
+.stepper__step + .stepper__step::after {
+  display: none;
+}
+.shell__main {
+  flex: 1;
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--gutter) var(--space-8);
+}
+.shell__footer {
+  padding: var(--space-4) var(--gutter);
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--cream-3);
+}
+
+@media (max-width: 720px) {
+  .shell__header {
+    grid-template-columns: auto 1fr auto;
+  }
+  .shell__context {
+    align-items: flex-start;
+  }
+  .stepper__label {
+    display: none;
+  }
+  .stepper__step--current .stepper__label {
+    display: inline;
+  }
+  .brand__sub {
+    display: none;
+  }
+}

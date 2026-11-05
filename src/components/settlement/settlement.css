@@ -1,0 +1,167 @@
+.settlement {
+  display: grid;
+  gap: var(--space-6);
+}
+.settlement__hero {
+  display: grid;
+  gap: var(--space-3);
+}
+.settlement__hero h1 {
+  font-size: var(--text-hero);
+  font-weight: 500;
+  font-variation-settings:
+    'SOFT' 40,
+    'opsz' 144;
+}
+.settlement__hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.settlement__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(18rem, 2fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.results {
+  padding: var(--space-4) var(--space-5);
+  overflow-x: auto;
+}
+.results table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.results th {
+  text-align: right;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  padding: var(--space-2) var(--space-2);
+  border-bottom: 1px solid var(--line-strong);
+}
+.results th:first-child,
+.results td:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+.results td {
+  text-align: right;
+  padding: var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.results tr:last-child td {
+  border-bottom: 0;
+}
+.results td.results__net .money {
+  font-size: var(--text-lg);
+}
+.results tfoot td {
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+.transfers {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+.transfers h2 {
+  font-size: var(--text-xl);
+}
+.transfers__list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.transfer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: oklch(0% 0 0 / 0.22);
+  border: 1px solid var(--line);
+  animation: rise-in var(--duration-slow) var(--ease-out-expo) both;
+  animation-delay: calc(var(--index, 0) * 70ms);
+}
+.transfer__people {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.transfer__arrow {
+  color: var(--gold);
+  font-size: var(--text-lg);
+}
+.transfer__text {
+  display: grid;
+  font-size: var(--text-sm);
+}
+.transfer__text strong {
+  font-weight: 600;
+}
+.transfer .money {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 500;
+}
+.settlement__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (max-width: 860px) {
+  .settlement__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.transfer__side {
+  display: grid;
+  justify-items: end;
+  gap: 0.2rem;
+}
+.transfer__paid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cream-3);
+  cursor: pointer;
+  transition: color var(--duration-fast);
+}
+.transfer__paid input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--win);
+  cursor: pointer;
+}
+.transfer__paid:hover {
+  color: var(--cream);
+}
+.transfer--paid {
+  border-color: color-mix(in oklch, var(--win), transparent 55%);
+  background: color-mix(in oklch, var(--win), oklch(0% 0 0 / 0.22) 90%);
+}
+.transfer--paid .transfer__paid {
+  color: var(--win);
+}
+.transfer--paid .transfer__text,
+.transfer--paid .transfer__people {
+  opacity: 0.6;
+}
+.transfer--paid .money {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in oklch, var(--win), transparent 30%);
+  text-decoration-thickness: 2px;
+}

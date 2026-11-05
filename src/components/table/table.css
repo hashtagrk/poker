@@ -1,0 +1,193 @@
+.table {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+  gap: var(--space-5);
+  align-items: start;
+}
+.totals {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+}
+.totals__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+.totals__actions .btn--primary {
+  margin-left: auto;
+}
+.seats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--space-4);
+}
+.seat {
+  position: relative;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  animation: rise-in var(--duration-slow) var(--ease-out-expo) both;
+  animation-delay: calc(var(--seat-index, 0) * 50ms);
+  transition:
+    transform var(--duration-normal) var(--ease-out-expo),
+    box-shadow var(--duration-normal);
+}
+.seat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lift);
+}
+.seat__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.seat__number {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--fg-faint);
+  font-style: italic;
+}
+.seat__edit {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.seat__edit:hover .player-identity__name {
+  text-decoration: underline;
+  text-decoration-color: var(--money-gold);
+}
+.seat__figures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--paper-3);
+}
+.seat__figure {
+  display: grid;
+  gap: 0.1rem;
+}
+.seat__figure .money {
+  font-size: var(--text-lg);
+}
+.seat__loans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  min-height: 1.4rem;
+}
+.seat__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+.seat__payoff {
+  grid-column: 1 / -1;
+  color: var(--money-neg);
+  border-color: color-mix(in oklch, var(--money-neg), transparent 60%);
+}
+.seat__payoff .money {
+  color: inherit;
+}
+.ledger {
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-3);
+  max-height: calc(100dvh - 7rem);
+  overflow: auto;
+  position: sticky;
+  top: 5.5rem;
+}
+.ledger h2 {
+  font-size: var(--text-lg);
+}
+.ledger__list {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.entry {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2) var(--space-2);
+  border-radius: var(--radius-md);
+  animation: rise-in var(--duration-normal) var(--ease-out-expo) both;
+}
+.entry:hover {
+  background: var(--surface-hover);
+}
+.entry__glyph {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  background: var(--felt-700);
+  color: var(--cream);
+  border: 1px solid var(--line-strong);
+}
+.entry__glyph--loan {
+  background: color-mix(in oklch, var(--gold-deep), var(--felt-800) 55%);
+}
+.entry__glyph--repayment {
+  background: color-mix(in oklch, var(--win-ink), var(--felt-800) 50%);
+}
+.entry__glyph--rebuy {
+  background: color-mix(in oklch, var(--chip-2), var(--felt-800) 55%);
+}
+.entry__text {
+  display: grid;
+  min-width: 0;
+  font-size: var(--text-sm);
+}
+.entry__text strong {
+  font-weight: 600;
+}
+.entry__meta {
+  font-size: var(--text-xs);
+  color: var(--cream-3);
+}
+.entry__side {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.entry__remove {
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+}
+.entry:hover .entry__remove,
+.entry:focus-within .entry__remove {
+  opacity: 1;
+}
+
+@media (max-width: 960px) {
+  .table {
+    grid-template-columns: 1fr;
+  }
+  .ledger {
+    position: static;
+    max-height: none;
+  }
+  .entry__remove {
+    opacity: 1;
+  }
+}
