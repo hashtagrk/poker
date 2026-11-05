@@ -20,7 +20,7 @@ import {
 import { derivePlayerSummaries, deriveTotals } from './ledger'
 import { parseGameJson } from './schema'
 import { buildSummaryText } from './summary'
-import type { Game } from './types'
+import { BANK, type Game } from './types'
 
 function tableWith(names: string[], buyIn = 2000): Game {
   const game = names.reduce((current, name) => addPlayer(current, name), createGame({ name: 'Friday', currency: '$', defaultBuyIn: buyIn }))
@@ -261,6 +261,74 @@ describe('schema', () => {
     const game = tableWith(['Ana', 'Ben'])
     const broken = { ...game, transactions: [{ ...game.transactions[0], playerId: 'ghost' }] }
     expect(() => parseGameJson(JSON.stringify(broken))).toThrow(/unknown player/)
+  })
+})
+
+describe('bank loans', () => {
+  function withBankLoan() {
+    let game = tableWith(['Ana', 'Ben'])
+    game = recordTransaction(game, { kind: 'loan', lenderId: BANK, borrowerId: idOf(game, 'Ben'), amount: 1000, source: 'stack' })
+    return game
+  }
+
+  test('issues chips on credit: the borrower owes the bank and no player is the lender', () => {
+    const game = withBankLoan()
+    expect(game.transactions.at(-1)).toMatchObject({ lenderId: BANK, source: 'bank' })
+    const [ana, ben] = derivePlayerSummaries(game)
+    expect(ana.lent).toBe(0)
+    expect(ana.paidIn).toBe(2000)
+    expect(ben.borrowed).toBe(1000)
+    expect(ben.owesBank).toBe(1000)
+    expect(ben.paidIn).toBe(2000)
+    expect(ben.chipsReceived).toBe(3000)
+    const totals = deriveTotals(game)
+    expect(totals.inPlay).toBe(5000)
+    expect(totals.bankCredit).toBe(1000)
+    expect(totals.loansOutstanding).toBe(1000)
+  })
+
+  test('settles with the bank debt netted into the borrower', () => {
+    let game = beginCashOut(withBankLoan())
+    // Ben turns 3000 in chips into 1000: down 2000 overall.
+    game = setCashOut(game, idOf(game, 'Ana'), 4000)
+    game = setCashOut(game, idOf(game, 'Ben'), 1000)
+    expect(deriveTotals(game).isBalanced).toBe(true)
+    expect(derivePlayerSummaries(game).map((summary) => summary.net)).toEqual([2000, -2000])
+    expect(settlementFor(game)).toEqual([{ from: idOf(game, 'Ben'), to: idOf(game, 'Ana'), amount: 2000 }])
+  })
+
+  test('a cash repayment puts the money in the bank and keeps chips in play', () => {
+    let game = withBankLoan()
+    game = recordTransaction(game, { kind: 'repayment', borrowerId: idOf(game, 'Ben'), lenderId: BANK, amount: 400, method: 'cash' })
+    const ben = derivePlayerSummaries(game)[1]
+    expect(ben.owesBank).toBe(600)
+    expect(ben.paidIn).toBe(2400)
+    expect(ben.chipsReceived).toBe(3000)
+    const totals = deriveTotals(game)
+    expect(totals.inPlay).toBe(5000)
+    expect(totals.bankCredit).toBe(600)
+  })
+
+  test('a chip repayment takes the chips out of play', () => {
+    let game = withBankLoan()
+    game = recordTransaction(game, { kind: 'repayment', borrowerId: idOf(game, 'Ben'), lenderId: BANK, amount: 1000, method: 'chips' })
+    const ben = derivePlayerSummaries(game)[1]
+    expect(ben.borrowed).toBe(0)
+    expect(ben.chipsReceived).toBe(2000)
+    expect(deriveTotals(game).inPlay).toBe(4000)
+    expect(() => recordTransaction(game, { kind: 'repayment', borrowerId: idOf(game, 'Ben'), lenderId: BANK, amount: 1, method: 'cash' })).toThrow(
+      /does not owe the bank/,
+    )
+  })
+
+  test('survives a save and reload, and rejects a bank loan from a stack', () => {
+    const game = withBankLoan()
+    expect(parseGameJson(JSON.stringify(game)).transactions.at(-1)).toMatchObject({ lenderId: BANK })
+    const broken = {
+      ...game,
+      transactions: game.transactions.map((transaction) => (transaction.kind === 'loan' ? { ...transaction, source: 'stack' } : transaction)),
+    }
+    expect(() => parseGameJson(JSON.stringify(broken))).toThrow(/bank loan/)
   })
 })
 
