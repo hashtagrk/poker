@@ -76,6 +76,12 @@ export function CashOutScreen({ game }: { game: Game }) {
                     {summary.borrowed > 0 && (
                       <>
                         owes <Money cents={summary.borrowed} currency={game.currency} compact />
+                        {summary.owesBank > 0 && (
+                          <>
+                            {' '}
+                            (bank <Money cents={summary.owesBank} currency={game.currency} compact />)
+                          </>
+                        )}
                       </>
                     )}
                   </span>

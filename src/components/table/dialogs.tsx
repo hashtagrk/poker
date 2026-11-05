@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from 'react'
 import { MAX_NOTE_LENGTH, MAX_PLAYER_NAME_LENGTH } from '../../lib/game'
-import { debtKey, outstandingDebts } from '../../lib/ledger'
+import { debtKey, outstandingDebts, playerName } from '../../lib/ledger'
 import { centsToUnits, formatMoney, parseAmount } from '../../lib/money'
-import type { Game, LoanSource, PlayerId, RepaymentMethod } from '../../lib/types'
+import { BANK, isBankLender } from '../../lib/types'
+import type { Game, LenderId, LoanSource, PlayerId, RepaymentMethod } from '../../lib/types'
 import { useGameStore } from '../../store/gameStore'
 import { RosterChips } from '../players/RosterChips'
 import { Button, Dialog, Field, MoneyInput } from '../ui'
@@ -110,16 +111,16 @@ type LoanDialogProps = { game: Game; borrowerId: PlayerId; onClose: () => void }
 
 export function LoanDialog({ game, borrowerId: initialBorrowerId, onClose }: LoanDialogProps) {
   const recordTransaction = useGameStore((state) => state.recordTransaction)
-  const firstOther = game.players.find((player) => player.id !== initialBorrowerId)?.id ?? initialBorrowerId
   const [borrowerId, setBorrowerId] = useState(initialBorrowerId)
-  const [lenderId, setLenderId] = useState(firstOther)
+  const [lenderId, setLenderId] = useState<LenderId>(BANK)
   const [source, setSource] = useState<LoanSource>('bank')
   const [note, setNote] = useState('')
   const amount = useAmount(game.defaultBuyIn)
+  const fromBank = isBankLender(lenderId)
 
   const changeBorrower = (id: PlayerId) => {
     setBorrowerId(id)
-    if (id === lenderId) setLenderId(game.players.find((player) => player.id !== id)?.id ?? id)
+    if (id === lenderId) setLenderId(BANK)
   }
 
   const submit = (event: FormEvent) => {
@@ -130,13 +131,24 @@ export function LoanDialog({ game, borrowerId: initialBorrowerId, onClose }: Loa
   }
 
   return (
-    <Dialog open title="Loan between players" onClose={onClose}>
+    <Dialog open title="Loan" onClose={onClose}>
       <form id="loan-form" className="stack" onSubmit={submit}>
         <Field label="Borrower" hint="Who needs chips">
           {({ id }) => <PlayerSelect game={game} id={id} value={borrowerId} onChange={changeBorrower} />}
         </Field>
-        <Field label="Lender" hint="Who is covering them">
-          {({ id }) => <PlayerSelect game={game} id={id} value={lenderId} onChange={setLenderId} exclude={borrowerId} />}
+        <Field label="Lender" hint={fromBank ? 'The bank issues chips on credit. The borrower owes the bank.' : 'Who is covering them'}>
+          {({ id, describedBy }) => (
+            <select id={id} className="select" value={lenderId} onChange={(event) => setLenderId(event.target.value)} aria-describedby={describedBy}>
+              <option value={BANK}>The bank</option>
+              {game.players
+                .filter((player) => player.id !== borrowerId)
+                .map((player) => (
+                  <option key={player.id} value={player.id}>
+                    {player.name}
+                  </option>
+                ))}
+            </select>
+          )}
         </Field>
         <Field label="Amount" error={amount.error}>
           {({ id, describedBy }) => (
@@ -151,23 +163,25 @@ export function LoanDialog({ game, borrowerId: initialBorrowerId, onClose }: Loa
             />
           )}
         </Field>
-        <fieldset className="choice-group" style={{ border: 0, padding: 0, margin: 0 }}>
-          <legend className="field__label">Where do the chips come from?</legend>
-          <label className="choice">
-            <input type="radio" name="source" value="bank" checked={source === 'bank'} onChange={() => setSource('bank')} />
-            <span>
-              <span className="choice__title">New chips from the bank</span>
-              <span className="choice__hint">The lender pays the bank. More money goes in play.</span>
-            </span>
-          </label>
-          <label className="choice">
-            <input type="radio" name="source" value="stack" checked={source === 'stack'} onChange={() => setSource('stack')} />
-            <span>
-              <span className="choice__title">Chips from the lender&apos;s stack</span>
-              <span className="choice__hint">Chips move across the table. The bank is untouched.</span>
-            </span>
-          </label>
-        </fieldset>
+        {!fromBank && (
+          <fieldset className="choice-group" style={{ border: 0, padding: 0, margin: 0 }}>
+            <legend className="field__label">How does {playerName(game, lenderId)} cover it?</legend>
+            <label className="choice">
+              <input type="radio" name="source" value="bank" checked={source === 'bank'} onChange={() => setSource('bank')} />
+              <span>
+                <span className="choice__title">Buys new chips for them</span>
+                <span className="choice__hint">The lender pays the bank. More money goes in play.</span>
+              </span>
+            </label>
+            <label className="choice">
+              <input type="radio" name="source" value="stack" checked={source === 'stack'} onChange={() => setSource('stack')} />
+              <span>
+                <span className="choice__title">Hands over chips from their stack</span>
+                <span className="choice__hint">Chips move across the table. The bank is untouched.</span>
+              </span>
+            </label>
+          </fieldset>
+        )}
         <NoteField value={note} onChange={setNote} />
       </form>
       <footer className="dialog__footer">
@@ -252,12 +266,14 @@ type RepayDialogProps = { game: Game; borrowerId: PlayerId; onClose: () => void 
 export function RepayDialog({ game, borrowerId: initialBorrowerId, onClose }: RepayDialogProps) {
   const recordTransaction = useGameStore((state) => state.recordTransaction)
   const debts = outstandingDebts(game)
-  const borrowers = game.players.filter((player) => game.players.some((other) => (debts.get(debtKey(player.id, other.id)) ?? 0) > 0))
+  const creditors: { id: LenderId; name: string }[] = [{ id: BANK, name: 'The bank' }, ...game.players]
+  const borrowers = game.players.filter((player) => creditors.some((creditor) => (debts.get(debtKey(player.id, creditor.id)) ?? 0) > 0))
   const [borrowerId, setBorrowerId] = useState(borrowers.some((player) => player.id === initialBorrowerId) ? initialBorrowerId : (borrowers[0]?.id ?? ''))
-  const lenders = game.players.filter((player) => (debts.get(debtKey(borrowerId, player.id)) ?? 0) > 0)
-  const [lenderId, setLenderId] = useState(lenders[0]?.id ?? '')
+  const lenders = creditors.filter((creditor) => (debts.get(debtKey(borrowerId, creditor.id)) ?? 0) > 0)
+  const [lenderId, setLenderId] = useState<LenderId>(lenders[0]?.id ?? '')
   const activeLender = lenders.some((player) => player.id === lenderId) ? lenderId : (lenders[0]?.id ?? '')
   const owed = debts.get(debtKey(borrowerId, activeLender)) ?? 0
+  const toBank = isBankLender(activeLender)
   const [method, setMethod] = useState<RepaymentMethod>('cash')
   const [note, setNote] = useState('')
   const amount = useAmount(owed)
@@ -332,14 +348,18 @@ export function RepayDialog({ game, borrowerId: initialBorrowerId, onClose }: Re
             <input type="radio" name="method" value="cash" checked={method === 'cash'} onChange={() => setMethod('cash')} />
             <span>
               <span className="choice__title">Cash, away from the table</span>
-              <span className="choice__hint">Chips stay where they are. The debt is cleared.</span>
+              <span className="choice__hint">
+                {toBank ? 'The cash goes into the bank. Chips stay where they are.' : 'Chips stay where they are. The debt is cleared.'}
+              </span>
             </span>
           </label>
           <label className="choice">
             <input type="radio" name="method" value="chips" checked={method === 'chips'} onChange={() => setMethod('chips')} />
             <span>
               <span className="choice__title">Chips handed back</span>
-              <span className="choice__hint">Chips move from the borrower&apos;s stack to the lender&apos;s.</span>
+              <span className="choice__hint">
+                {toBank ? 'Chips go back to the bank and leave play.' : "Chips move from the borrower's stack to the lender's."}
+              </span>
             </span>
           </label>
         </fieldset>

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { CHARACTER_IDS, MAX_PLAYERS } from './types'
+import { BANK, CHARACTER_IDS, MAX_PLAYERS } from './types'
 import type { Game } from './types'
 
 const cents = z.number().int().min(0)
@@ -62,7 +62,10 @@ export const gameSchema = z
   .superRefine((game, context) => {
     const ids = new Set(game.players.map((player) => player.id))
     game.transactions.forEach((transaction, index) => {
-      const refs = 'playerId' in transaction ? [transaction.playerId] : [transaction.lenderId, transaction.borrowerId]
+      const refs = 'playerId' in transaction ? [transaction.playerId] : [transaction.lenderId, transaction.borrowerId].filter((ref) => ref !== BANK)
+      if (transaction.kind === 'loan' && transaction.lenderId === BANK && transaction.source !== 'bank') {
+        context.addIssue({ code: 'custom', path: ['transactions', index], message: 'A bank loan must issue chips from the bank' })
+      }
       for (const ref of refs) {
         if (!ids.has(ref)) {
           context.addIssue({

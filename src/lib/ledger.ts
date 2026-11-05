@@ -1,5 +1,6 @@
 import { sumCents } from './money'
-import type { Cents, Game, Player, PlayerId, Transaction } from './types'
+import { isBankLender } from './types'
+import type { Cents, Game, LenderId, Player, PlayerId, Transaction } from './types'
 
 export type PlayerSummary = {
   player: Player
@@ -8,8 +9,10 @@ export type PlayerSummary = {
   rebuyCount: number
   /** Money this player is owed by others. */
   lent: Cents
-  /** Money this player owes others. */
+  /** Money this player owes others, including the bank. */
   borrowed: Cents
+  /** The part of `borrowed` owed to the bank for chips it issued on credit. */
+  owesBank: Cents
   /** Cash this player is on the hook for at the bank (buy-ins plus bank-funded loans given). */
   paidIn: Cents
   /** Chip value this player received from the bank or from other stacks. */
@@ -20,9 +23,12 @@ export type PlayerSummary = {
 }
 
 export type GameTotals = {
-  /** Cash held by the bank, which always equals chips in play. */
+  /** Chips in play: cash held by the bank plus chips it issued on credit. */
   inPlay: Cents
+  /** Every unpaid loan, whether owed to a player or to the bank. */
   loansOutstanding: Cents
+  /** Chips the bank issued on credit that have not been paid back yet. */
+  bankCredit: Cents
   cashedOut: Cents
   playersCashedOut: number
   /** cashedOut minus inPlay. Zero when every chip has been accounted for. */
@@ -37,6 +43,7 @@ function emptySummary(player: Player, cashOut: Cents | null): PlayerSummary {
     rebuyCount: 0,
     lent: 0,
     borrowed: 0,
+    owesBank: 0,
     paidIn: 0,
     chipsReceived: 0,
     cashOut,
@@ -45,6 +52,12 @@ function emptySummary(player: Player, cashOut: Cents | null): PlayerSummary {
 }
 
 function applyTransaction(summaries: Readonly<Record<PlayerId, PlayerSummary>>, transaction: Transaction): Record<PlayerId, PlayerSummary> {
+  if ((transaction.kind === 'repayment' || transaction.kind === 'loan') && isBankLender(transaction.lenderId)) {
+    const borrower = summaries[transaction.borrowerId]
+    if (!borrower) return summaries
+    return { ...summaries, [borrower.player.id]: applyBankCredit(borrower, transaction) }
+  }
+
   if (transaction.kind === 'repayment') {
     const lender = summaries[transaction.lenderId]
     const borrower = summaries[transaction.borrowerId]
@@ -100,6 +113,29 @@ function applyTransaction(summaries: Readonly<Record<PlayerId, PlayerSummary>>, 
   }
 }
 
+/**
+ * A bank loan issues chips on credit. Paying it back in cash puts that cash in the bank;
+ * paying it back in chips takes those chips out of play.
+ */
+function applyBankCredit(borrower: PlayerSummary, transaction: Extract<Transaction, { kind: 'loan' | 'repayment' }>): PlayerSummary {
+  if (transaction.kind === 'loan') {
+    return {
+      ...borrower,
+      borrowed: borrower.borrowed + transaction.amount,
+      owesBank: borrower.owesBank + transaction.amount,
+      chipsReceived: borrower.chipsReceived + transaction.amount,
+    }
+  }
+  const inChips = transaction.method === 'chips'
+  return {
+    ...borrower,
+    borrowed: borrower.borrowed - transaction.amount,
+    owesBank: borrower.owesBank - transaction.amount,
+    paidIn: borrower.paidIn + (inChips ? 0 : transaction.amount),
+    chipsReceived: borrower.chipsReceived - (inChips ? transaction.amount : 0),
+  }
+}
+
 /** Net result = cash out − paid in + money lent − money borrowed. */
 export function computeNet(summary: Omit<PlayerSummary, 'net'>): Cents | null {
   if (summary.cashOut === null) return null
@@ -123,14 +159,16 @@ export function derivePlayerSummaries(game: Game): PlayerSummary[] {
 }
 
 export function deriveTotals(game: Game, summaries = derivePlayerSummaries(game)): GameTotals {
-  const inPlay = sumCents(summaries.map((summary) => summary.paidIn))
-  const loansOutstanding = sumCents(summaries.map((summary) => summary.lent))
+  const bankCredit = sumCents(summaries.map((summary) => summary.owesBank))
+  const inPlay = sumCents(summaries.map((summary) => summary.paidIn)) + bankCredit
+  const loansOutstanding = sumCents(summaries.map((summary) => summary.borrowed))
   const cashedOutSummaries = summaries.filter((summary) => summary.cashOut !== null)
   const cashedOut = sumCents(cashedOutSummaries.map((summary) => summary.cashOut ?? 0))
   const discrepancy = cashedOut - inPlay
   return {
     inPlay,
     loansOutstanding,
+    bankCredit,
     cashedOut,
     playersCashedOut: cashedOutSummaries.length,
     discrepancy,
@@ -138,7 +176,7 @@ export function deriveTotals(game: Game, summaries = derivePlayerSummaries(game)
   }
 }
 
-export const debtKey = (borrowerId: PlayerId, lenderId: PlayerId) => `${borrowerId}>${lenderId}`
+export const debtKey = (borrowerId: PlayerId, lenderId: LenderId) => `${borrowerId}>${lenderId}`
 
 /** Outstanding loan balance per borrower→lender pair, after repayments. */
 export function outstandingDebts(game: Game): ReadonlyMap<string, Cents> {
@@ -159,6 +197,7 @@ export function playerById(game: Game, playerId: PlayerId): Player | undefined {
   return game.players.find((player) => player.id === playerId)
 }
 
-export function playerName(game: Game, playerId: PlayerId): string {
+export function playerName(game: Game, playerId: LenderId): string {
+  if (isBankLender(playerId)) return 'the bank'
   return playerById(game, playerId)?.name ?? 'Unknown player'
 }

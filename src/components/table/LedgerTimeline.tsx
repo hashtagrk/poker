@@ -1,6 +1,6 @@
 import { formatTime } from '../../lib/format'
 import { playerName } from '../../lib/ledger'
-import { isBuyIn, type Game, type Transaction } from '../../lib/types'
+import { isBankLender, isBuyIn, type Game, type Transaction } from '../../lib/types'
 import { useGameStore } from '../../store/gameStore'
 import { Button, Money } from '../ui'
 
@@ -16,6 +16,17 @@ function openingBuyInIds(game: Game): Set<string> {
 }
 
 function describe(game: Game, transaction: Transaction): { glyph: string; text: React.ReactNode; tone: string } {
+  if (transaction.kind === 'loan' && isBankLender(transaction.lenderId)) {
+    return {
+      glyph: '⇄',
+      tone: 'loan',
+      text: (
+        <>
+          <strong>{playerName(game, transaction.borrowerId)}</strong> borrowed from the bank
+        </>
+      ),
+    }
+  }
   if (transaction.kind === 'loan') {
     const source = transaction.source === 'bank' ? 'paid the bank' : 'handed over chips'
     return {

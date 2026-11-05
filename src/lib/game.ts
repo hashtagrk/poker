@@ -1,9 +1,9 @@
 import { createId } from './id'
 import { formatMoney, normalizeCurrency } from './money'
-import { debtKey, derivePlayerSummaries, deriveTotals, outstandingDebts } from './ledger'
+import { debtKey, derivePlayerSummaries, deriveTotals, outstandingDebts, playerName } from './ledger'
 import { settle, type Transfer } from './settlement'
-import { CHARACTER_IDS, isBuyIn, MAX_PLAYERS, MIN_PLAYERS, participantIds } from './types'
-import type { Cents, CharacterId, Game, LoanSource, Player, PlayerId, RepaymentMethod, Transaction, TransactionId } from './types'
+import { CHARACTER_IDS, isBankLender, isBuyIn, MAX_PLAYERS, MIN_PLAYERS, participantIds } from './types'
+import type { Cents, CharacterId, Game, LenderId, LoanSource, Player, PlayerId, RepaymentMethod, Transaction, TransactionId } from './types'
 
 export class GameError extends Error {
   constructor(message: string) {
@@ -170,16 +170,17 @@ export function startGame(game: Game, buyIns: Readonly<Record<PlayerId, Cents>>,
 export type BuyInInput = { kind: 'buy-in' | 'rebuy'; playerId: PlayerId; amount: Cents; note?: string }
 export type LoanInput = {
   kind: 'loan'
-  lenderId: PlayerId
+  lenderId: LenderId
   borrowerId: PlayerId
   amount: Cents
+  /** Ignored when the bank is the lender. */
   source: LoanSource
   note?: string
 }
 export type RepaymentInput = {
   kind: 'repayment'
   borrowerId: PlayerId
-  lenderId: PlayerId
+  lenderId: LenderId
   amount: Cents
   method: RepaymentMethod
   note?: string
@@ -201,10 +202,11 @@ export function recordTransaction(game: Game, input: TransactionInput, at = now(
   if (input.kind === 'repayment') {
     if (input.lenderId === input.borrowerId) throw new GameError('A player cannot repay themselves')
     const borrower = assertPlayer(game, input.borrowerId)
-    const lender = assertPlayer(game, input.lenderId)
+    if (!isBankLender(input.lenderId)) assertPlayer(game, input.lenderId)
+    const lenderName = playerName(game, input.lenderId)
     const owed = outstandingDebts(game).get(debtKey(input.borrowerId, input.lenderId)) ?? 0
-    if (owed <= 0) throw new GameError(`${borrower.name} does not owe ${lender.name} anything`)
-    if (input.amount > owed) throw new GameError(`${borrower.name} only owes ${lender.name} ${formatMoney(owed, game.currency, { compact: true })}`)
+    if (owed <= 0) throw new GameError(`${borrower.name} does not owe ${lenderName} anything`)
+    if (input.amount > owed) throw new GameError(`${borrower.name} only owes ${lenderName} ${formatMoney(owed, game.currency, { compact: true })}`)
     transaction = {
       id: createId(),
       at,
@@ -217,7 +219,8 @@ export function recordTransaction(game: Game, input: TransactionInput, at = now(
     }
   } else if (input.kind === 'loan') {
     if (input.lenderId === input.borrowerId) throw new GameError('A player cannot lend to themselves')
-    assertPlayer(game, input.lenderId)
+    const fromBank = isBankLender(input.lenderId)
+    if (!fromBank) assertPlayer(game, input.lenderId)
     assertPlayer(game, input.borrowerId)
     transaction = {
       id: createId(),
@@ -226,7 +229,7 @@ export function recordTransaction(game: Game, input: TransactionInput, at = now(
       lenderId: input.lenderId,
       borrowerId: input.borrowerId,
       amount: input.amount,
-      source: input.source,
+      source: fromBank ? 'bank' : input.source,
       note,
     }
   } else {

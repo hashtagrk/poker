@@ -33,15 +33,22 @@ export type BuyInTransaction = TransactionBase & {
   amount: Cents
 }
 
+/** Stands in for a player id when the bank itself is the lender. */
+export const BANK = 'bank'
+
+/** A player id, or `BANK` when the house lent the chips. */
+export type LenderId = PlayerId | typeof BANK
+
 /**
- * A loan between two players.
+ * A loan to a player.
+ * - lender is `BANK`: the bank issues chips on credit and the borrower owes the bank. `source` is always `bank`.
  * - `bank`: the lender pays the bank and the borrower receives freshly issued chips.
  * - `stack`: the lender hands chips from their own stack to the borrower.
- * In both cases the borrower owes the lender `amount` at settlement.
+ * In every case the borrower owes the lender `amount` at settlement.
  */
 export type LoanTransaction = TransactionBase & {
   kind: 'loan'
-  lenderId: PlayerId
+  lenderId: LenderId
   borrowerId: PlayerId
   amount: Cents
   source: 'bank' | 'stack'
@@ -49,13 +56,13 @@ export type LoanTransaction = TransactionBase & {
 
 /**
  * A borrower paying a lender back during the game.
- * - `cash`: money changes hands away from the table; chips are untouched.
- * - `chips`: the borrower hands chips from their stack back to the lender.
+ * - `cash`: money changes hands away from the table (or into the bank); chips are untouched.
+ * - `chips`: the borrower hands chips from their stack back to the lender (or the bank, taking them out of play).
  */
 export type RepaymentTransaction = TransactionBase & {
   kind: 'repayment'
   borrowerId: PlayerId
-  lenderId: PlayerId
+  lenderId: LenderId
   amount: Cents
   method: 'cash' | 'chips'
 }
@@ -69,9 +76,14 @@ export function isBuyIn(transaction: Transaction): transaction is BuyInTransacti
   return transaction.kind === 'buy-in' || transaction.kind === 'rebuy'
 }
 
-/** Every player a transaction touches. */
+export function isBankLender(lenderId: LenderId): lenderId is typeof BANK {
+  return lenderId === BANK
+}
+
+/** Every player a transaction touches. The bank is not a player. */
 export function participantIds(transaction: Transaction): PlayerId[] {
-  return isBuyIn(transaction) ? [transaction.playerId] : [transaction.lenderId, transaction.borrowerId]
+  if (isBuyIn(transaction)) return [transaction.playerId]
+  return isBankLender(transaction.lenderId) ? [transaction.borrowerId] : [transaction.lenderId, transaction.borrowerId]
 }
 
 export type GameStatus = 'setup' | 'active' | 'cash-out' | 'settled'

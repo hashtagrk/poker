@@ -40,9 +40,14 @@ export function PlayerSeat({ game, summary, index, onRebuy, onBorrow, onRepay, o
             Lent <Money cents={summary.lent} currency={game.currency} compact />
           </span>
         )}
-        {summary.borrowed > 0 && (
+        {summary.borrowed - summary.owesBank > 0 && (
           <span className="badge badge--loss">
-            Owes <Money cents={summary.borrowed} currency={game.currency} compact />
+            Owes <Money cents={summary.borrowed - summary.owesBank} currency={game.currency} compact />
+          </span>
+        )}
+        {summary.owesBank > 0 && (
+          <span className="badge badge--loss">
+            Owes bank <Money cents={summary.owesBank} currency={game.currency} compact />
           </span>
         )}
       </div>
