@@ -111,16 +111,18 @@ type LoanDialogProps = { game: Game; borrowerId: PlayerId; onClose: () => void }
 
 export function LoanDialog({ game, borrowerId: initialBorrowerId, onClose }: LoanDialogProps) {
   const recordTransaction = useGameStore((state) => state.recordTransaction)
+  const otherThan = (id: PlayerId) => game.players.find((player) => player.id !== id)?.id ?? ''
   const [borrowerId, setBorrowerId] = useState(initialBorrowerId)
-  const [lenderId, setLenderId] = useState<LenderId>(BANK)
+  const [fromBank, setFromBank] = useState(true)
+  const [playerLenderId, setPlayerLenderId] = useState<PlayerId>(otherThan(initialBorrowerId))
   const [source, setSource] = useState<LoanSource>('bank')
   const [note, setNote] = useState('')
   const amount = useAmount(game.defaultBuyIn)
-  const fromBank = isBankLender(lenderId)
+  const lenderId: LenderId = fromBank ? BANK : playerLenderId
 
   const changeBorrower = (id: PlayerId) => {
     setBorrowerId(id)
-    if (id === lenderId) setLenderId(BANK)
+    if (id === playerLenderId) setPlayerLenderId(otherThan(id))
   }
 
   const submit = (event: FormEvent) => {
@@ -136,20 +138,27 @@ export function LoanDialog({ game, borrowerId: initialBorrowerId, onClose }: Loa
         <Field label="Borrower" hint="Who needs chips">
           {({ id }) => <PlayerSelect game={game} id={id} value={borrowerId} onChange={changeBorrower} />}
         </Field>
-        <Field label="Lender" hint={fromBank ? 'The bank issues chips on credit. The borrower owes the bank.' : 'Who is covering them'}>
-          {({ id, describedBy }) => (
-            <select id={id} className="select" value={lenderId} onChange={(event) => setLenderId(event.target.value)} aria-describedby={describedBy}>
-              <option value={BANK}>The bank</option>
-              {game.players
-                .filter((player) => player.id !== borrowerId)
-                .map((player) => (
-                  <option key={player.id} value={player.id}>
-                    {player.name}
-                  </option>
-                ))}
-            </select>
-          )}
-        </Field>
+        <fieldset className="segmented-field">
+          <legend className="field__label">Lender</legend>
+          <div className="segmented">
+            <label className="segmented__option">
+              <input type="radio" name="lender" checked={fromBank} onChange={() => setFromBank(true)} />
+              <span>The bank</span>
+            </label>
+            <label className="segmented__option">
+              <input type="radio" name="lender" checked={!fromBank} onChange={() => setFromBank(false)} />
+              <span>Another player</span>
+            </label>
+          </div>
+          <span className="field__hint">
+            {fromBank ? 'The bank issues chips on credit. The borrower owes the bank.' : 'A player covers them. The borrower owes that player.'}
+          </span>
+        </fieldset>
+        {!fromBank && (
+          <Field label="Lending player">
+            {({ id }) => <PlayerSelect game={game} id={id} value={playerLenderId} onChange={setPlayerLenderId} exclude={borrowerId} />}
+          </Field>
+        )}
         <Field label="Amount" error={amount.error}>
           {({ id, describedBy }) => (
             <MoneyInput
