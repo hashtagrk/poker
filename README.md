@@ -27,6 +27,24 @@ npm run start      # http://localhost:4173
 
 The league home page keeps all-time standings across settled nights, matched by player name.
 
+## iPhone app
+
+The same app ships as a native iOS app through [Capacitor](https://capacitorjs.com). On iPhone, games are saved in native storage (iOS can clear a web view's localStorage), fonts are bundled so it works offline, and "Download JSON" opens the share sheet.
+
+You need a Mac with Xcode (free from the App Store) and an Apple ID.
+
+1. `npm install`, then `npm run ios`. This builds the web app, copies it into `ios/`, and opens the project in Xcode.
+2. In Xcode, select the **App** target → **Signing & Capabilities**, tick **Automatically manage signing**, and choose your Apple ID as the **Team**.
+3. Plug in your iPhone, unlock it, tap **Trust**, and pick it as the run destination at the top of Xcode.
+4. On the iPhone, turn on **Settings → Privacy & Security → Developer Mode** (it asks to restart).
+5. Press **Run** (⌘R). The first time, approve the developer under **Settings → General → VPN & Device Management**.
+
+With a free Apple ID, the app keeps working for 7 days before it needs reinstalling from Xcode. A paid developer account removes that limit and lets you share it through TestFlight.
+
+After changing the web code, run `npm run ios:sync` and press Run again.
+
+App icon and splash sources live in `assets/`; regenerate with `npx capacitor-assets generate --ios`.
+
 ## The money model
 
 Amounts are integer minor units (paise/cents). For each player:

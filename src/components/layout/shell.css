@@ -7,6 +7,10 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-3) var(--gutter);
+  /* Clear the iPhone notch / Dynamic Island when running full screen. */
+  padding-top: max(var(--space-3), env(safe-area-inset-top));
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
   background: color-mix(in oklch, var(--felt-950), transparent 25%);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);

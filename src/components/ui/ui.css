@@ -199,6 +199,57 @@
   color: var(--fg-muted);
 }
 
+/* Segmented control: radios drawn as side-by-side buttons */
+.segmented-field {
+  display: grid;
+  gap: var(--space-2);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+}
+.segmented__option {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  border-radius: calc(var(--radius-md) - 2px);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast),
+    color var(--duration-fast);
+}
+.segmented__option:hover {
+  background: var(--surface-hover);
+}
+.segmented__option input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.segmented__option:has(input:checked) {
+  background: color-mix(in oklch, var(--money-gold), transparent 80%);
+  box-shadow: inset 0 0 0 1px var(--money-gold);
+}
+.segmented__option:has(input:focus-visible) {
+  outline: 2px solid var(--gold-deep);
+  outline-offset: 2px;
+}
+
 /* ---------- Dialog ---------- */
 .dialog {
   width: min(92vw, 30rem);
