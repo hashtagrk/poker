@@ -5,7 +5,6 @@ import { GameError, type NewGameInput, type PlayerPatch, type PlayerProfile, typ
 import { gameSchema } from '../lib/schema'
 import { parseGameJson } from '../lib/schema'
 import type { Cents, Game, GameId, PlayerId, TransactionId } from '../lib/types'
-import { isNative, nativeStorage } from '../lib/native'
 import { notify } from './toastStore'
 
 export const STORAGE_KEY = 'poker-ledger/v1'
@@ -128,7 +127,7 @@ export const useGameStore = create<GameStore>()(
     {
       name: STORAGE_KEY,
       version: 1,
-      storage: createJSONStorage(() => (isNative ? nativeStorage : localStorage)),
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ games: state.games, activeGameId: state.activeGameId }),
       merge: (persisted, current) => {
         const raw = (persisted ?? {}) as Partial<GameState>

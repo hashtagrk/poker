@@ -1,0 +1,581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05AD47C06026DEE1C52F7664 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB0A34AB3ED2862CF112E12 /* League.swift */; };
+		15C2B6C301BD14561BE6A3D8 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7434AC7A1D687924D9C97A01 /* TableView.swift */; };
+		2000ADBFE4F82EA112CA585E /* Settlement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC95AC03FB0F92508995034 /* Settlement.swift */; };
+		21DC274F79D8B6F490CD946E /* SeatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71C5F8C94C60AC1D8D56170 /* SeatingView.swift */; };
+		29CA17C93FBEB93176BB0B09 /* PokerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F5E0469E8A260BA1969F10 /* PokerStore.swift */; };
+		35B73A8BBEAF751C189B2A1B /* AlpinePokerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36317E2C7B4B82097AE8B9A6 /* AlpinePokerApp.swift */; };
+		475E9984609381B863C41F66 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B461017EA55E422386FF5AE /* Money.swift */; };
+		7E41BE0584BC3628BC5EB248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 155854A3106572EC5202290B /* Assets.xcassets */; };
+		89012F36FF572C5FE8BB896D /* GameActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C7DC50EC04B09852A7B90E /* GameActions.swift */; };
+		C20A7BB6BEF87F650EBC583A /* Ledger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C31632E2C49B7DD51601CA5 /* Ledger.swift */; };
+		D1145FE0EC6C5D7730B6C50E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934EBFC75B931443C1A13475 /* HomeView.swift */; };
+		E106191E8B2B7EAB0D5F1A98 /* NightFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC4BCE3FCFA75B0E6BD4545 /* NightFlowTests.swift */; };
+		E251D3F48E415E0035029D43 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39F0D906EC476609E088F88 /* Theme.swift */; };
+		E43477F58F1FF2D029FDC6C2 /* PokerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A899EAC112D4CD0CED7D4478 /* PokerTests.swift */; };
+		EA35715EB5CC9B9D9DCA1566 /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80F9DC81DC9E15ACFBA03D /* CashOutView.swift */; };
+		EA4EA17880527FDE2509FCBB /* TransactionSheets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626A02983EA9064B2C660B8E /* TransactionSheets.swift */; };
+		FF7B9E5477823A14DF0D327F /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006D00B26D4E694F88EC4D96 /* Game.swift */; };
+		FFF807AACC82FB23DDCDA24E /* SettlementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE61026283E6965DB646F1E /* SettlementView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DD7D17F0C4F2C7CE3DB8A2EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2FBACD166F37E67CF37B10A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B793755F5B9E73687A74089;
+			remoteInfo = AlpinePoker;
+		};
+		F1FE4D58632D884DB6966FDB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2FBACD166F37E67CF37B10A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6B793755F5B9E73687A74089;
+			remoteInfo = AlpinePoker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		006D00B26D4E694F88EC4D96 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		155854A3106572EC5202290B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		36317E2C7B4B82097AE8B9A6 /* AlpinePokerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlpinePokerApp.swift; sourceTree = "<group>"; };
+		4ED51612EAACE4AF10C572FB /* AlpinePokerUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlpinePokerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AC4BCE3FCFA75B0E6BD4545 /* NightFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightFlowTests.swift; sourceTree = "<group>"; };
+		626A02983EA9064B2C660B8E /* TransactionSheets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionSheets.swift; sourceTree = "<group>"; };
+		6B461017EA55E422386FF5AE /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		7434AC7A1D687924D9C97A01 /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
+		78C7DC50EC04B09852A7B90E /* GameActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameActions.swift; sourceTree = "<group>"; };
+		7EC95773F2C7AE1F3FD7D3A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7EE61026283E6965DB646F1E /* SettlementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettlementView.swift; sourceTree = "<group>"; };
+		934EBFC75B931443C1A13475 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9C31632E2C49B7DD51601CA5 /* Ledger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ledger.swift; sourceTree = "<group>"; };
+		A39F0D906EC476609E088F88 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		A899EAC112D4CD0CED7D4478 /* PokerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerTests.swift; sourceTree = "<group>"; };
+		BE1B2CCF65C63C822CADA72D /* AlpinePokerTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = AlpinePokerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFA64601FD14890C12C393DD /* AlpinePoker.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AlpinePoker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFC95AC03FB0F92508995034 /* Settlement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settlement.swift; sourceTree = "<group>"; };
+		D71C5F8C94C60AC1D8D56170 /* SeatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatingView.swift; sourceTree = "<group>"; };
+		DA80F9DC81DC9E15ACFBA03D /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
+		DFB0A34AB3ED2862CF112E12 /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
+		E7F5E0469E8A260BA1969F10 /* PokerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerStore.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		4687DC916592DB75FE2AB3AF /* AlpinePokerTests */ = {
+			isa = PBXGroup;
+			children = (
+				A899EAC112D4CD0CED7D4478 /* PokerTests.swift */,
+			);
+			path = AlpinePokerTests;
+			sourceTree = "<group>";
+		};
+		67687008C1EA9D3D645DB909 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA80F9DC81DC9E15ACFBA03D /* CashOutView.swift */,
+				934EBFC75B931443C1A13475 /* HomeView.swift */,
+				D71C5F8C94C60AC1D8D56170 /* SeatingView.swift */,
+				7EE61026283E6965DB646F1E /* SettlementView.swift */,
+				7434AC7A1D687924D9C97A01 /* TableView.swift */,
+				A39F0D906EC476609E088F88 /* Theme.swift */,
+				626A02983EA9064B2C660B8E /* TransactionSheets.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9A8A2DAAB2259C2B0F7C29A5 = {
+			isa = PBXGroup;
+			children = (
+				B05684860371631DEE741D37 /* AlpinePoker */,
+				4687DC916592DB75FE2AB3AF /* AlpinePokerTests */,
+				A66CCD1AC39E237634F96CFE /* AlpinePokerUITests */,
+				C76BE610E9F1EA3FDECBCF78 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A66CCD1AC39E237634F96CFE /* AlpinePokerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5AC4BCE3FCFA75B0E6BD4545 /* NightFlowTests.swift */,
+			);
+			path = AlpinePokerUITests;
+			sourceTree = "<group>";
+		};
+		AD6859B4B43ABDB5D48EB921 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				006D00B26D4E694F88EC4D96 /* Game.swift */,
+				78C7DC50EC04B09852A7B90E /* GameActions.swift */,
+				DFB0A34AB3ED2862CF112E12 /* League.swift */,
+				9C31632E2C49B7DD51601CA5 /* Ledger.swift */,
+				6B461017EA55E422386FF5AE /* Money.swift */,
+				CFC95AC03FB0F92508995034 /* Settlement.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B05684860371631DEE741D37 /* AlpinePoker */ = {
+			isa = PBXGroup;
+			children = (
+				36317E2C7B4B82097AE8B9A6 /* AlpinePokerApp.swift */,
+				155854A3106572EC5202290B /* Assets.xcassets */,
+				7EC95773F2C7AE1F3FD7D3A2 /* Info.plist */,
+				E7F5E0469E8A260BA1969F10 /* PokerStore.swift */,
+				AD6859B4B43ABDB5D48EB921 /* Model */,
+				67687008C1EA9D3D645DB909 /* Views */,
+			);
+			path = AlpinePoker;
+			sourceTree = "<group>";
+		};
+		C76BE610E9F1EA3FDECBCF78 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BFA64601FD14890C12C393DD /* AlpinePoker.app */,
+				BE1B2CCF65C63C822CADA72D /* AlpinePokerTests.xctest */,
+				4ED51612EAACE4AF10C572FB /* AlpinePokerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6B793755F5B9E73687A74089 /* AlpinePoker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0194372F6A708CD9BCCBA86 /* Build configuration list for PBXNativeTarget "AlpinePoker" */;
+			buildPhases = (
+				07C3412D2F5AA82CB0737286 /* Sources */,
+				A03C1FFFE8AB4D4EBEBF312A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlpinePoker;
+			packageProductDependencies = (
+			);
+			productName = AlpinePoker;
+			productReference = BFA64601FD14890C12C393DD /* AlpinePoker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		83A5CBEF8803EB9784D9770C /* AlpinePokerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0481947E8D35BD00CC7080CE /* Build configuration list for PBXNativeTarget "AlpinePokerUITests" */;
+			buildPhases = (
+				44F772EA3D68B255396B9BD4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1CB0B2FA25F5AE2857C6C338 /* PBXTargetDependency */,
+			);
+			name = AlpinePokerUITests;
+			packageProductDependencies = (
+			);
+			productName = AlpinePokerUITests;
+			productReference = 4ED51612EAACE4AF10C572FB /* AlpinePokerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		949B3ABC4F76B6C0897520B7 /* AlpinePokerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7318D9FD566BA184F85319CB /* Build configuration list for PBXNativeTarget "AlpinePokerTests" */;
+			buildPhases = (
+				ADB7E12E1537F587BC1AD82C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A4583E8890062F00F16EA3AE /* PBXTargetDependency */,
+			);
+			name = AlpinePokerTests;
+			packageProductDependencies = (
+			);
+			productName = AlpinePokerTests;
+			productReference = BE1B2CCF65C63C822CADA72D /* AlpinePokerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D2FBACD166F37E67CF37B10A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					6B793755F5B9E73687A74089 = {
+						ProvisioningStyle = Automatic;
+					};
+					83A5CBEF8803EB9784D9770C = {
+						TestTargetID = 6B793755F5B9E73687A74089;
+					};
+				};
+			};
+			buildConfigurationList = 76333B181E3E95386A184B49 /* Build configuration list for PBXProject "AlpinePoker" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 9A8A2DAAB2259C2B0F7C29A5;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C76BE610E9F1EA3FDECBCF78 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6B793755F5B9E73687A74089 /* AlpinePoker */,
+				949B3ABC4F76B6C0897520B7 /* AlpinePokerTests */,
+				83A5CBEF8803EB9784D9770C /* AlpinePokerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A03C1FFFE8AB4D4EBEBF312A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E41BE0584BC3628BC5EB248 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		07C3412D2F5AA82CB0737286 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35B73A8BBEAF751C189B2A1B /* AlpinePokerApp.swift in Sources */,
+				EA35715EB5CC9B9D9DCA1566 /* CashOutView.swift in Sources */,
+				FF7B9E5477823A14DF0D327F /* Game.swift in Sources */,
+				89012F36FF572C5FE8BB896D /* GameActions.swift in Sources */,
+				D1145FE0EC6C5D7730B6C50E /* HomeView.swift in Sources */,
+				05AD47C06026DEE1C52F7664 /* League.swift in Sources */,
+				C20A7BB6BEF87F650EBC583A /* Ledger.swift in Sources */,
+				475E9984609381B863C41F66 /* Money.swift in Sources */,
+				29CA17C93FBEB93176BB0B09 /* PokerStore.swift in Sources */,
+				21DC274F79D8B6F490CD946E /* SeatingView.swift in Sources */,
+				2000ADBFE4F82EA112CA585E /* Settlement.swift in Sources */,
+				FFF807AACC82FB23DDCDA24E /* SettlementView.swift in Sources */,
+				15C2B6C301BD14561BE6A3D8 /* TableView.swift in Sources */,
+				E251D3F48E415E0035029D43 /* Theme.swift in Sources */,
+				EA4EA17880527FDE2509FCBB /* TransactionSheets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		44F772EA3D68B255396B9BD4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E106191E8B2B7EAB0D5F1A98 /* NightFlowTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADB7E12E1537F587BC1AD82C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E43477F58F1FF2D029FDC6C2 /* PokerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1CB0B2FA25F5AE2857C6C338 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B793755F5B9E73687A74089 /* AlpinePoker */;
+			targetProxy = DD7D17F0C4F2C7CE3DB8A2EB /* PBXContainerItemProxy */;
+		};
+		A4583E8890062F00F16EA3AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6B793755F5B9E73687A74089 /* AlpinePoker */;
+			targetProxy = F1FE4D58632D884DB6966FDB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		16781D35F5BFF0DE5FFB192C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		4450A2F3FE14984DFEEA98D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		47CA9729CB6064981B471E35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AlpinePoker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker;
+				PRODUCT_NAME = AlpinePoker;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		857EAF99CF2DE0A8972E1EE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AlpinePoker/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker;
+				PRODUCT_NAME = AlpinePoker;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		89D24B65646CD32D3D7A3405 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlpinePoker.app/AlpinePoker";
+			};
+			name = Debug;
+		};
+		E599375BC0863EE3266513F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AlpinePoker;
+			};
+			name = Debug;
+		};
+		E9519738DE28F5BCFB992748 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlpinePoker.app/AlpinePoker";
+			};
+			name = Release;
+		};
+		F9B9A2F0171F9F979016ADEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hashtagrk.alpinepoker.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = AlpinePoker;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0481947E8D35BD00CC7080CE /* Build configuration list for PBXNativeTarget "AlpinePokerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E599375BC0863EE3266513F7 /* Debug */,
+				F9B9A2F0171F9F979016ADEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7318D9FD566BA184F85319CB /* Build configuration list for PBXNativeTarget "AlpinePokerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				89D24B65646CD32D3D7A3405 /* Debug */,
+				E9519738DE28F5BCFB992748 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		76333B181E3E95386A184B49 /* Build configuration list for PBXProject "AlpinePoker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16781D35F5BFF0DE5FFB192C /* Debug */,
+				4450A2F3FE14984DFEEA98D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D0194372F6A708CD9BCCBA86 /* Build configuration list for PBXNativeTarget "AlpinePoker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47CA9729CB6064981B471E35 /* Debug */,
+				857EAF99CF2DE0A8972E1EE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D2FBACD166F37E67CF37B10A /* Project object */;
+}
