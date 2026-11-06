@@ -1,4 +1,3 @@
-import { isNative, shareJsonFile } from './native'
 const dateTime = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' })
 const timeOnly = new Intl.DateTimeFormat(undefined, { timeStyle: 'short' })
 
@@ -16,10 +15,6 @@ export function pluralize(count: number, singular: string, plural = `${singular}
 
 export function downloadJson(filename: string, value: unknown): void {
   const json = JSON.stringify(value, null, 2)
-  if (isNative) {
-    void shareJsonFile(filename, json)
-    return
-  }
   const blob = new Blob([json], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')

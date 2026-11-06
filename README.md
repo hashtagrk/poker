@@ -29,21 +29,23 @@ The league home page keeps all-time standings across settled nights, matched by 
 
 ## iPhone app
 
-The same app ships as a native iOS app through [Capacitor](https://capacitorjs.com). On iPhone, games are saved in native storage (iOS can clear a web view's localStorage), fonts are bundled so it works offline, and "Download JSON" opens the share sheet.
+`ios/` is a native SwiftUI app, separate from the web app and built from native controls. It has the same steps (league home, seating, the table, cash-out, settlement) and the same money rules, ported from `src/lib` with its tests.
 
-You need a Mac with Xcode (free from the App Store) and an Apple ID.
+- Games are saved on the phone. The first launch carries over any games the earlier web-view build saved.
+- A game's JSON is the same in both apps: **Export JSON** on the phone's settlement screen can be imported on the web, and a web download can be imported on the phone (home screen → Import).
+- Rules live in `ios/AlpinePoker/Model`, unit-tested in `ios/AlpinePokerTests`; `ios/AlpinePokerUITests` plays a whole night.
 
-1. `npm install`, then `npm run ios`. This builds the web app, copies it into `ios/`, and opens the project in Xcode.
-2. In Xcode, select the **App** target → **Signing & Capabilities**, tick **Automatically manage signing**, and choose your Apple ID as the **Team**.
-3. Plug in your iPhone, unlock it, tap **Trust**, and pick it as the run destination at the top of Xcode.
+Needs Xcode 16 or later; runs on iOS 17 and later. The project is generated from `ios/project.yml` with [XcodeGen](https://github.com/yonaskolb/XcodeGen): after adding or renaming files, run `xcodegen generate` in `ios/`.
+
+1. Open `ios/AlpinePoker.xcodeproj` in Xcode.
+2. Select the **AlpinePoker** target → **Signing & Capabilities** and choose your Apple ID as the **Team**.
+3. Plug in your iPhone, unlock it, tap **Trust**, and pick it as the run destination.
 4. On the iPhone, turn on **Settings → Privacy & Security → Developer Mode** (it asks to restart).
 5. Press **Run** (⌘R). The first time, approve the developer under **Settings → General → VPN & Device Management**.
 
-With a free Apple ID, the app keeps working for 7 days before it needs reinstalling from Xcode. A paid developer account removes that limit and lets you share it through TestFlight.
-
-After changing the web code, run `npm run ios:sync` and press Run again.
-
-App icon and splash sources live in `assets/`; regenerate with `npx capacitor-assets generate --ios`.
+With a free Apple ID the app runs for 7 days before it needs reinstalling from Xcode.
+Tests: `xcodebuild test -project ios/AlpinePoker.xcodeproj -scheme AlpinePoker -destination 'platform=iOS Simulator,name=iPhone 17'`.
+The icon source is `assets/icon-only.png`.
 
 ## The money model
 
